@@ -1,20 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { selectContacts, selectFilter } from 'redux/selectors';
+import { selectFilteredContacts } from 'redux/selectors';
 import { deleteContactThunk } from 'redux/thunk';
 
 export const Contact = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
-  const filter = useSelector(selectFilter);
+  const filteredContacts = useSelector(selectFilteredContacts);
 
-  const getVisibleContacts = (contacts, filter) => {
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
-    );
-  };
-  const visibleContacts = getVisibleContacts(contacts, filter);
-
-  return visibleContacts.map(({ id, name, phone }) => (
+  return filteredContacts.map(({ id, name, phone }) => (
     <li key={id}>
       <span>
         {name}: {phone}
