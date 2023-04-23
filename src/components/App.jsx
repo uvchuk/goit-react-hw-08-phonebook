@@ -1,5 +1,7 @@
-import { useSelector } from 'react-redux';
-import { useContacts } from 'redux/phoneBookSlice';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useContacts } from 'redux/selectors';
+import { fetchContactsThunk } from 'redux/thunk';
 import { Section } from './Section/Section';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
@@ -7,7 +9,12 @@ import { ContactList } from './ContactList/ContactList';
 import { Contact } from './Contact/Contact';
 
 const PhoneBook = () => {
+  const dispatch = useDispatch();
   const contacts = useSelector(useContacts);
+
+  useEffect(() => {
+    dispatch(fetchContactsThunk());
+  }, [dispatch]);
 
   return (
     <>

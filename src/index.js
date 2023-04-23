@@ -6,9 +6,9 @@ import PhoneBook from 'components/App';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
       <PhoneBook />
     </Provider>
-  </React.StrictMode>
+  /* </React.StrictMode> */
 );
