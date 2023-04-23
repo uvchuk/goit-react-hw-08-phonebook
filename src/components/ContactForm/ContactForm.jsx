@@ -1,20 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/slice';
-import { useContacts } from 'redux/selectors';
+import { selectContacts } from 'redux/selectors';
+import { addContactThunk } from 'redux/thunk';
 import './ContactForm.module.css';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(useContacts);
+  const contacts = useSelector(selectContacts);
 
   const onSubmit = evt => {
     evt.preventDefault();
     const form = evt.target;
     const name = form.elements.name.value;
-    const number = form.elements.number.value;
+    const phone = form.elements.number.value;
     if (checkIfExist(name))
       return alert('This contact is exist in your phonebook!');
-    dispatch(addContact({ name, number }));
+    dispatch(addContactThunk({ name, phone }));
     form.reset();
   };
 

@@ -1,4 +1,6 @@
-const useContacts = state => state.phoneBook.contacts.items;
-const useFilter = state => state.phoneBook.filter;
+const selectContacts = state => state.phoneBook.contacts.items;
+const selectIsLoading = state => state.phoneBook.contacts.isLoading;
+const selectError = state => state.phoneBook.contacts.error;
+const selectFilter = state => state.phoneBook.filter;
 
-export { useContacts, useFilter };
+export { selectContacts, selectIsLoading, selectError, selectFilter };

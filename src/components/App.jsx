@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useContacts } from 'redux/selectors';
+import { selectContacts, selectError, selectIsLoading } from 'redux/selectors';
 import { fetchContactsThunk } from 'redux/thunk';
 import { Section } from './Section/Section';
 import { ContactForm } from './ContactForm/ContactForm';
@@ -10,7 +10,9 @@ import { Contact } from './Contact/Contact';
 
 const PhoneBook = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(useContacts);
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
 
   useEffect(() => {
     dispatch(fetchContactsThunk());
@@ -21,6 +23,7 @@ const PhoneBook = () => {
       <Section title={'Phonebook'}>
         <ContactForm></ContactForm>
       </Section>
+      {isLoading && !error && <b>Request in progress...</b>}
       {contacts.length > 0 && (
         <Section title={'Contacts'}>
           <Filter />

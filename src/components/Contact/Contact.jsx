@@ -1,11 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useContacts, useFilter } from 'redux/selectors'
-import { removeContact } from 'redux/slice';
+import { selectContacts, selectFilter } from 'redux/selectors';
+import { deleteContactThunk } from 'redux/thunk';
 
 export const Contact = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(useContacts);
-  const filter = useSelector(useFilter);
+  const contacts = useSelector(selectContacts);
+  const filter = useSelector(selectFilter);
 
   const getVisibleContacts = (contacts, filter) => {
     return contacts.filter(contact =>
@@ -14,14 +14,14 @@ export const Contact = () => {
   };
   const visibleContacts = getVisibleContacts(contacts, filter);
 
-  return visibleContacts.map(({ id, name, number }) => (
+  return visibleContacts.map(({ id, name, phone }) => (
     <li key={id}>
       <span>
-        {name}: {number}
+        {name}: {phone}
       </span>
       <button
         onClick={() => {
-          dispatch(removeContact(id));
+          dispatch(deleteContactThunk(id));
         }}
         type="button"
       >
