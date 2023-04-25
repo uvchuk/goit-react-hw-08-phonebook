@@ -1,34 +1,30 @@
-const handlePending = ({ contacts }) => {
-  contacts.isLoading = true;
-};
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { fetchContacts, addContact, deleteContact } from 'services/ContactsAPI';
 
-const handleRejected = ({ contacts }, { payload }) => {
-  contacts.isLoading = false;
-  contacts.error = payload;
-};
+export const fetchContactsThunk = createAsyncThunk(
+  'contacts/fetchAll',
+  async () => {
+    const response = await fetchContacts();
+    return response;
+  }
+);
 
-const handleFulfilled = ({ contacts }) => {
-  contacts.isLoading = false;
-  contacts.error = null;
-};
+export const addContactThunk = createAsyncThunk(
+  'contacts/addContact',
+  async contact => {
+    const response = await addContact(contact);
+    return response;
+  }
+);
 
-const handleGetFulfilled = ({ contacts }, { payload: { data } }) => {
-  contacts.items.push(...data);
-};
+export const deleteContactThunk = createAsyncThunk(
+  'contacts/deleteContact',
+  async id => {
+    const response = await deleteContact(id);
+    return response;
+  }
+);
 
-const handleCreateFulfilled = ({ contacts }, { payload: { data } }) => {
-  contacts.items.push(data);
-};
+const userThunks = [fetchContactsThunk, addContactThunk, deleteContactThunk];
 
-const handleDeleteFulfilled = ({ contacts }, { payload: { data } }) => {
-  contacts.items = contacts.items.filter(el => el.id !== data.id);
-};
-
-export {
-  handlePending,
-  handleFulfilled,
-  handleRejected,
-  handleGetFulfilled,
-  handleCreateFulfilled,
-  handleDeleteFulfilled,
-};
+export const getMathcedThunk = status => userThunks.map(el => el[status]);

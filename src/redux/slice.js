@@ -4,7 +4,7 @@ import {
   deleteContactThunk,
   fetchContactsThunk,
   getMathcedThunk,
-} from './thunk';
+} from './operations';
 import {
   handleCreateFulfilled,
   handleDeleteFulfilled,
@@ -12,7 +12,7 @@ import {
   handleGetFulfilled,
   handlePending,
   handleRejected,
-} from './operations';
+} from './reducers';
 
 const STATUS = {
   PENDING: 'pending',
@@ -52,4 +52,3 @@ const phoneBookSlice = createSlice({
 
 export const { filterContact } = phoneBookSlice.actions;
 export const phoneBookReducer = phoneBookSlice.reducer;
-
