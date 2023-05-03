@@ -1,39 +1,51 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts, selectError, selectIsLoading } from 'redux/selectors';
-import { fetchContactsThunk } from 'redux/operations';
-import { Section } from './Section/Section';
-import { ContactForm } from './ContactForm/ContactForm';
-import { Filter } from './Filter/Filter';
-import { ContactList } from './ContactList/ContactList';
-import { Contact } from './Contact/Contact';
+import { lazy, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectToken } from 'redux/selectors';
+import { setToken } from 'services/ContactsAPI';
+import { Layout } from './Layout/Layout';
+import PublicRoute from './PublicRoute/PublicRoute';
+import PrivateRoute from './PrivateRoute/PrivateRoute';
+
+const ContactsPage = lazy(() => import('pages/ContactsPage'));
+const LoginPage = lazy(() => import('pages/LoginPage'));
+const RegisterPage = lazy(() => import('pages/RegisterPage'));
 
 const PhoneBook = () => {
-  const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
-
+  const token = useSelector(selectToken);
   useEffect(() => {
-    dispatch(fetchContactsThunk());
-  }, [dispatch]);
+    setToken(token);
+  }, [token]);
 
   return (
-    <>
-      <Section title={'Phonebook'}>
-        <ContactForm></ContactForm>
-      </Section>
-      {isLoading && !error && <b>Request in progress...</b>}
-      {contacts.length > 0 && (
-        <Section title={'Contacts'}>
-          <Filter />
-          <ContactList>
-            <Contact />
-          </ContactList>
-        </Section>
-      )}
-    </>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route
+          path="/contacts"
+          element={
+            <PrivateRoute>
+              <ContactsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/registration"
+          element={
+            <PublicRoute>
+              <RegisterPage />
+            </PublicRoute>
+          }
+        />
+      </Route>
+    </Routes>
   );
 };
-
 export default PhoneBook;

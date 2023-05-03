@@ -4,15 +4,25 @@ import {
   deleteContactThunk,
   fetchContactsThunk,
   getMathcedThunk,
+  getProfileThunk,
+  loginThunk,
+  logoutThunk,
+  signUpThunk,
 } from './operations';
 import {
   handleCreateFulfilled,
   handleDeleteFulfilled,
   handleFulfilled,
-  handleGetFulfilled,
+  handleGetContactsFulfilled,
+  handleGetProfileFulfilled,
+  handleLoginFulfilled,
+  handleLogoutFulfilled,
   handlePending,
   handleRejected,
+  handleSignUpFulfilled,
 } from './reducers';
+import persistReducer from 'redux-persist/es/persistReducer';
+import storage from 'redux-persist/lib/storage';
 
 const STATUS = {
   PENDING: 'pending',
@@ -23,11 +33,17 @@ const STATUS = {
 const phoneBookSlice = createSlice({
   name: 'phoneBook',
   initialState: {
+    user: {
+      isLoggedIn: false,
+      name: null,
+      email: null,
+      token: null,
+    },
     contacts: {
       items: [],
-      isLoading: false,
-      error: null,
     },
+    isLoading: false,
+    error: null,
     filter: '',
   },
   reducers: {
@@ -41,7 +57,11 @@ const phoneBookSlice = createSlice({
   extraReducers: builder => {
     const { PENDING, REJECTED, FULFILLED } = STATUS;
     builder
-      .addCase(fetchContactsThunk[`${FULFILLED}`], handleGetFulfilled)
+      .addCase(signUpThunk[`${FULFILLED}`], handleSignUpFulfilled)
+      .addCase(loginThunk[`${FULFILLED}`], handleLoginFulfilled)
+      .addCase(logoutThunk[`${FULFILLED}`], handleLogoutFulfilled)
+      .addCase(getProfileThunk[`${FULFILLED}`], handleGetProfileFulfilled)
+      .addCase(fetchContactsThunk[`${FULFILLED}`], handleGetContactsFulfilled)
       .addCase(addContactThunk[`${FULFILLED}`], handleCreateFulfilled)
       .addCase(deleteContactThunk[`${FULFILLED}`], handleDeleteFulfilled)
       .addMatcher(isAnyOf(...getMathcedThunk(PENDING)), handlePending)
@@ -50,5 +70,15 @@ const phoneBookSlice = createSlice({
   },
 });
 
+const persistConfig = {
+  key: 'phoneBook',
+  storage,
+  whitelist: ['user'],
+};
+
+export const phoneBookReducer = persistReducer(
+  persistConfig,
+  phoneBookSlice.reducer
+);
+
 export const { filterContact } = phoneBookSlice.actions;
-export const phoneBookReducer = phoneBookSlice.reducer;

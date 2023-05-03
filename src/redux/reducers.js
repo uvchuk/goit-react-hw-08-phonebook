@@ -1,34 +1,63 @@
-const handlePending = ({ contacts }) => {
-  contacts.isLoading = true;
+const handlePending = state => {
+  state.isLoading = true;
 };
 
-const handleRejected = ({ contacts }, { payload }) => {
-  contacts.isLoading = false;
-  contacts.error = payload;
+const handleRejected = (state, action) => {
+  state.isLoading = false;
+  state.error = action.error.message;
 };
 
-const handleFulfilled = ({ contacts }) => {
-  contacts.isLoading = false;
-  contacts.error = null;
+const handleFulfilled = state => {
+  state.isLoading = false;
+  state.error = null;
 };
 
-const handleGetFulfilled = ({ contacts }, { payload: { data } }) => {
-  contacts.items.push(...data);
+const handleSignUpFulfilled = ({ user }, { payload }) => {
+  user.isLoggedIn = true;
+  user.name = payload.user.name;
+  user.email = payload.user.email;
+  user.token = payload.token;
 };
 
-const handleCreateFulfilled = ({ contacts }, { payload: { data } }) => {
-  contacts.items.push(data);
+const handleLoginFulfilled = ({ user }, { payload }) => {
+  user.isLoggedIn = true;
+  user.name = payload.user.name;
+  user.email = payload.user.email;
+  user.token = payload.token;
 };
 
-const handleDeleteFulfilled = ({ contacts }, { payload: { data } }) => {
-  contacts.items = contacts.items.filter(el => el.id !== data.id);
+const handleLogoutFulfilled = ({ user }, { payload }) => {
+  user.isLoggedIn = false;
+  user.name = null;
+  user.email = null;
+  user.token = null;
+};
+
+const handleGetProfileFulfilled = ({ user }, { payload }) => {
+  user.isLoggedIn = true;
+};
+
+const handleGetContactsFulfilled = ({ contacts }, { payload }) => {
+  contacts.items.push(...payload);
+};
+
+const handleCreateFulfilled = ({ contacts }, { payload }) => {
+  contacts.items.push(payload);
+};
+
+const handleDeleteFulfilled = ({ contacts }, { payload }) => {
+  contacts.items = contacts.items.filter(el => el.id !== payload.id);
 };
 
 export {
   handlePending,
   handleFulfilled,
   handleRejected,
-  handleGetFulfilled,
+  handleSignUpFulfilled,
+  handleLoginFulfilled,
+  handleLogoutFulfilled,
+  handleGetProfileFulfilled,
+  handleGetContactsFulfilled,
   handleCreateFulfilled,
   handleDeleteFulfilled,
 };

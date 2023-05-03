@@ -1,17 +1,51 @@
 import axios from 'axios';
-axios.defaults.baseURL = 'https://643d8ea86c30feced8155e77.mockapi.io';
+
+const publicInstance = axios.create({
+  baseURL: 'https://connections-api.herokuapp.com',
+});
+
+const privateInstance = axios.create({
+  baseURL: 'https://connections-api.herokuapp.com',
+});
+
+export const setToken = token => {
+  privateInstance.defaults.headers.common['Authorization'] = token;
+};
+
+const dellToken = () => {
+  delete privateInstance.defaults.headers.common['Authorization'];
+};
+
+export const signUp = async profile => {
+  return await publicInstance.post('/users/signup', profile);
+};
+
+export const login = async profile => {
+  const { data } = await publicInstance.post('/users/login', profile);
+  setToken(`Bearer ${data.token}`);
+  return data;
+};
+
+export const logout = async () => {
+  return await privateInstance.post('/users/logout').then(dellToken());
+};
+
+export const getProfile = async () => {
+  const { data } = await privateInstance('/users/current');
+  return data;
+};
 
 export const fetchContacts = async () => {
-  const data = await axios.get('/contacts');
+  const { data } = await privateInstance('/contacts').then(console.log);
   return data;
 };
 
 export const addContact = async contact => {
-  const data = await axios.post('/contacts', contact);
+  const { data } = await privateInstance('/contacts', contact);
   return data;
 };
 
 export const deleteContact = async id => {
-  const data = await axios.delete(`/contacts/${id}`);
+  const { data } = await privateInstance(`/contacts/${id}`);
   return data;
 };

@@ -1,24 +1,24 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { selectFilteredContacts } from 'redux/selectors';
+import { selectIsLoading } from 'redux/selectors';
 import { deleteContactThunk } from 'redux/operations';
 
-export const Contact = () => {
+export const Contact = ({ id, name, phone }) => {
   const dispatch = useDispatch();
-  const filteredContacts = useSelector(selectFilteredContacts);
-
-  return filteredContacts.map(({ id, name, phone }) => (
-    <li key={id}>
+  const isLoading = useSelector(selectIsLoading);
+  return (
+    <li>
       <span>
-        {name}: {phone}
+        {name}: <span>{phone}</span>
       </span>
       <button
+        type="button"
+        disabled={isLoading}
         onClick={() => {
           dispatch(deleteContactThunk(id));
         }}
-        type="button"
       >
-        Delete
+        {isLoading ? <span>Loading...</span> : <span>Delete</span>}
       </button>
     </li>
-  ));
+  );
 };
