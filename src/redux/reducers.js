@@ -26,11 +26,12 @@ const handleLoginFulfilled = ({ user }, { payload }) => {
   user.token = payload.token;
 };
 
-const handleLogoutFulfilled = ({ user }, { payload }) => {
-  user.isLoggedIn = false;
-  user.name = null;
-  user.email = null;
-  user.token = null;
+const handleLogoutFulfilled = (state, { payload }) => {
+  state.user.isLoggedIn = false;
+  state.user.name = null;
+  state.user.email = null;
+  state.user.token = null;
+  state.contacts.items = [];
 };
 
 const handleGetProfileFulfilled = ({ user }, { payload }) => {
