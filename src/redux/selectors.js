@@ -5,8 +5,8 @@ const selectUserName = state => state.phoneBook.user.name;
 const selectUserEmail = state => state.phoneBook.user.email;
 const selectToken = state => state.phoneBook.user.token;
 const selectContacts = state => state.phoneBook.contacts.items;
-const selectIsLoading = state => state.phoneBook.contacts.isLoading;
-const selectError = state => state.phoneBook.contacts.error;
+const selectIsLoading = state => state.phoneBook.isLoading;
+const selectError = state => state.phoneBook.error;
 const selectFilter = state => state.phoneBook.filter;
 
 const selectFilteredContacts = createSelector(

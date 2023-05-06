@@ -37,7 +37,7 @@ const handleGetProfileFulfilled = ({ user }, { payload }) => {
   user.isLoggedIn = true;
 };
 
-const handleGetContactsFulfilled = ({ contacts }, { payload }) => {
+const handleFetchContactsFulfilled = ({ contacts }, { payload }) => {
   contacts.items.push(...payload);
 };
 
@@ -57,7 +57,7 @@ export {
   handleLoginFulfilled,
   handleLogoutFulfilled,
   handleGetProfileFulfilled,
-  handleGetContactsFulfilled,
+  handleFetchContactsFulfilled,
   handleCreateFulfilled,
   handleDeleteFulfilled,
 };

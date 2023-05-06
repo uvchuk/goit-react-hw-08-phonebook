@@ -1,19 +1,35 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts } from 'redux/selectors';
+import { selectContacts, selectIsLoading } from 'redux/selectors';
 import { addContactThunk } from 'redux/operations';
+import { TextField, Typography } from '@mui/material';
+import styled from 'styled-components';
+import { Button } from '@mui/joy';
+import SendIcon from '@mui/icons-material/Send';
+
+const ValidationTextField = styled(TextField)({
+  '& input:valid + fieldset': {
+    borderColor: 'green',
+    borderWidth: 2,
+  },
+  '& input:invalid + fieldset': {
+    borderColor: 'red',
+    borderWidth: 2,
+  },
+});
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
 
   const onSubmit = evt => {
     evt.preventDefault();
     const form = evt.target;
     const name = form.elements.name.value;
-    const phone = form.elements.number.value;
+    const number = form.elements.number.value;
     if (checkIfExist(name))
       return alert('This contact is exist in your phonebook!');
-    dispatch(addContactThunk({ name, phone }));
+    dispatch(addContactThunk({ name, number }));
     form.reset();
   };
 
@@ -24,28 +40,51 @@ export const ContactForm = () => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <label>
-        <p>Name</p>
-        <input
-          type="text"
-          name="name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+    <>
+      <Typography variant="h4" component="h2" sx={{ mt: 2 }}>
+        Save new contact to your's PhoneBook!
+      </Typography>
+      <form
+        onSubmit={onSubmit}
+        style={{ display: 'flex', flexDirection: 'column' }}
+      >
+        <ValidationTextField
+          id="name"
+          label="Name"
+          variant="outlined"
+          helperText="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer"
+          inputProps={{
+            inputMode: 'text',
+            pattern:
+              "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$",
+          }}
+          sx={{ mt: 2, maxWidth: '500px' }}
           required
-        />
-      </label>
-      <label>
-        <p>Number</p>
-        <input
-          type="tel"
-          name="number"
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+        ></ValidationTextField>
+        <ValidationTextField
+          id="number"
+          label="Number"
+          variant="outlined"
+          helperText="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          inputProps={{
+            inputMode: 'numeric',
+            pattern: '[+]?[0-9]*',
+          }}
+          sx={{ mt: 2, maxWidth: '500px' }}
           required
-        />
-      </label>
-      <button type="submit">Add to contact</button>
-    </form>
+        ></ValidationTextField>
+        <Button
+          sx={{ width: 200, mt: 2 }}
+          loading={isLoading}
+          loadingPosition="end"
+          endDecorator={isLoading && <SendIcon />}
+          variant="solid"
+          disabled={isLoading}
+          type="submit"
+        >
+          {isLoading ? 'Send' : 'Add to contacts'}
+        </Button>
+      </form>
+    </>
   );
 };

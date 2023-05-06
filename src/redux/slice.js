@@ -13,7 +13,7 @@ import {
   handleCreateFulfilled,
   handleDeleteFulfilled,
   handleFulfilled,
-  handleGetContactsFulfilled,
+  handleFetchContactsFulfilled,
   handleGetProfileFulfilled,
   handleLoginFulfilled,
   handleLogoutFulfilled,
@@ -61,7 +61,7 @@ const phoneBookSlice = createSlice({
       .addCase(loginThunk[`${FULFILLED}`], handleLoginFulfilled)
       .addCase(logoutThunk[`${FULFILLED}`], handleLogoutFulfilled)
       .addCase(getProfileThunk[`${FULFILLED}`], handleGetProfileFulfilled)
-      .addCase(fetchContactsThunk[`${FULFILLED}`], handleGetContactsFulfilled)
+      .addCase(fetchContactsThunk[`${FULFILLED}`], handleFetchContactsFulfilled)
       .addCase(addContactThunk[`${FULFILLED}`], handleCreateFulfilled)
       .addCase(deleteContactThunk[`${FULFILLED}`], handleDeleteFulfilled)
       .addMatcher(isAnyOf(...getMathcedThunk(PENDING)), handlePending)

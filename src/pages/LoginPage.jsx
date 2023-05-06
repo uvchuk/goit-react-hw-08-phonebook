@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loginThunk } from 'redux/operations';
 import { CssVarsProvider } from '@mui/joy/styles';
 import {
   Typography,
@@ -9,8 +11,6 @@ import {
   Sheet,
   Button,
 } from '@mui/joy';
-import { useDispatch } from 'react-redux';
-import { loginThunk } from 'redux/operations';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const LoginPage = () => {
         variant="outlined"
         sx={{
           width: 300,
-          mx: 'auto', // margin left & right
+          ml: 4, // margin left & right
           my: 4, // margin top & bottom
           py: 3, // padding top & bottom
           px: 2, // padding left & right
@@ -36,7 +36,6 @@ const LoginPage = () => {
           boxShadow: 'md',
         }}
       >
-        {/* <div> */}
         <Typography level="h4" component="h1">
           Welcome!
         </Typography>
@@ -51,16 +50,11 @@ const LoginPage = () => {
             marginBottom: 10,
           }}
         >
-          <FormControl defaultValue="" required>
+          <FormControl required>
             <FormLabel>Email</FormLabel>
-            <Input
-              // html input attribute
-              name="email"
-              type="email"
-              placeholder="johndoe@email.com"
-            />
+            <Input name="email" type="email" placeholder="johndoe@email.com" />
           </FormControl>
-          <FormControl defaultValue="" required>
+          <FormControl required>
             <FormLabel>Password</FormLabel>
             <Input name="password" type="password" placeholder="password" />
           </FormControl>
@@ -75,7 +69,6 @@ const LoginPage = () => {
         >
           Don't have an account?
         </Typography>
-        {/* </div> */}
       </Sheet>
     </CssVarsProvider>
   );

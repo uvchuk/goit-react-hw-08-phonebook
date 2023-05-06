@@ -29,7 +29,7 @@ const RegisterPage = () => {
         variant="outlined"
         sx={{
           width: 300,
-          mx: 'auto', // margin left & right
+          ml: 4, // margin left & right
           my: 4, // margin top & bottom
           py: 3, // padding top & bottom
           px: 2, // padding left & right

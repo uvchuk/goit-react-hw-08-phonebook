@@ -3,13 +3,14 @@ import { Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectToken } from 'redux/selectors';
 import { setToken } from 'services/ContactsAPI';
-import { Layout } from './Layout/Layout';
+import { Layout } from '../Layout/Layout';
 import PublicRoute from './PublicRoute/PublicRoute';
 import PrivateRoute from './PrivateRoute/PrivateRoute';
 
-const ContactsPage = lazy(() => import('pages/ContactsPage'));
+const HomePage = lazy(() => import('pages/HomePage'));
 const LoginPage = lazy(() => import('pages/LoginPage'));
 const RegisterPage = lazy(() => import('pages/RegisterPage'));
+const ContactsPage = lazy(() => import('pages/ContactsPage'));
 
 const PhoneBook = () => {
   const token = useSelector(selectToken);
@@ -20,14 +21,7 @@ const PhoneBook = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route
-          path="/contacts"
-          element={
-            <PrivateRoute>
-              <ContactsPage />
-            </PrivateRoute>
-          }
-        />
+        <Route index element={<HomePage />} />
         <Route
           path="/login"
           element={
@@ -44,7 +38,16 @@ const PhoneBook = () => {
             </PublicRoute>
           }
         />
+        <Route
+          path="/contacts"
+          element={
+            <PrivateRoute>
+              <ContactsPage />
+            </PrivateRoute>
+          }
+        />
       </Route>
+      <Route path="*" element={<ContactsPage />} />
     </Routes>
   );
 };

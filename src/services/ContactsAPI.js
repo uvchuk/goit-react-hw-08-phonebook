@@ -31,21 +31,21 @@ export const logout = async () => {
 };
 
 export const getProfile = async () => {
-  const { data } = await privateInstance('/users/current');
+  const { data } = await privateInstance.get('/users/current');
   return data;
 };
 
 export const fetchContacts = async () => {
-  const { data } = await privateInstance('/contacts').then(console.log);
+  const { data } = await privateInstance.get('/contacts');
   return data;
 };
 
 export const addContact = async contact => {
-  const { data } = await privateInstance('/contacts', contact);
+  const { data } = await privateInstance.post('/contacts', contact);
   return data;
 };
 
 export const deleteContact = async id => {
-  const { data } = await privateInstance(`/contacts/${id}`);
+  const { data } = await privateInstance.delete(`/contacts/${id}`);
   return data;
 };
