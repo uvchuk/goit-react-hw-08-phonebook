@@ -1,21 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { selectContacts, selectIsLoading } from 'redux/selectors';
 import { addContactThunk } from 'redux/operations';
-import { TextField, Typography } from '@mui/material';
-import styled from 'styled-components';
+import { Typography } from '@mui/material';
 import { Button } from '@mui/joy';
 import SendIcon from '@mui/icons-material/Send';
-
-const ValidationTextField = styled(TextField)({
-  '& input:valid + fieldset': {
-    borderColor: 'green',
-    borderWidth: 2,
-  },
-  '& input:invalid + fieldset': {
-    borderColor: 'red',
-    borderWidth: 2,
-  },
-});
+import { ValidationTextField } from './ContactForm.styled';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
@@ -34,8 +23,8 @@ export const ContactForm = () => {
   };
 
   const checkIfExist = name => {
-    return contacts.find(contact =>
-      contact.name.toLowerCase().includes(name.toLowerCase())
+    return contacts.find(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
     );
   };
 
