@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkreact_redux_project=self.webpackChunkreact_redux_project||[]).push([[983],{3983:function(e,t,r){r.r(t);r(2791);var c=r(1087),u=r(3329);t.default=function(){return(0,u.jsx)(c.rU,{to:"/contacts",children:"Get Started"})}}}]);
-//# sourceMappingURL=983.eb37439f.chunk.js.map
