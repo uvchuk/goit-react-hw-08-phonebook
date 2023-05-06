@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signUpThunk } from 'redux/operations';
 import { CssVarsProvider } from '@mui/joy/styles';
 import {
   Typography,
@@ -9,8 +11,6 @@ import {
   Sheet,
   Button,
 } from '@mui/joy';
-import { useDispatch } from 'react-redux';
-import { signUpThunk } from 'redux/operations';
 
 const RegisterPage = () => {
   const dispatch = useDispatch();

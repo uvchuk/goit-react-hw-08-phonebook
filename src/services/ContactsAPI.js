@@ -17,7 +17,8 @@ const dellToken = () => {
 };
 
 export const signUp = async profile => {
-  return await publicInstance.post('/users/signup', profile);
+  const { data } = await publicInstance.post('/users/signup', profile);
+  return data;
 };
 
 export const login = async profile => {

@@ -26,15 +26,15 @@ const handleLoginFulfilled = ({ user }, { payload }) => {
   user.token = payload.token;
 };
 
-const handleLogoutFulfilled = (state, { payload }) => {
-  state.user.isLoggedIn = false;
-  state.user.name = null;
-  state.user.email = null;
-  state.user.token = null;
-  state.contacts.items = [];
+const handleLogoutFulfilled = ({ user, contacts }) => {
+  user.isLoggedIn = false;
+  user.name = null;
+  user.email = null;
+  user.token = null;
+  contacts.items = [];
 };
 
-const handleGetProfileFulfilled = ({ user }, { payload }) => {
+const handleGetProfileFulfilled = ({ user }) => {
   user.isLoggedIn = true;
 };
 
